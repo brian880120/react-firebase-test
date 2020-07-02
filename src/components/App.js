@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useMemo, useReducer } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import StoreContext from '../context/store.context';
-import RootReducer from '../context/root.reducer';
 import Navbar from './layout/navbar/Navbar';
 import Dashboard from './dashboard/Dashboard';
 import ProjectDetails from './projects/project-details/ProjectDetails';
@@ -9,9 +8,16 @@ import SignIn from './auth/signin/SignIn';
 import SignUp from './auth/signup/SignUp';
 import CreateProject from './projects/create-project/CreateProject';
 import './App.css';
+import ProjectReducer, { projectInitState } from '../context/project/project.reducer';
 
 function App() {
-    const value = RootReducer();
+    const [projectState, projectDispatch] = useReducer(ProjectReducer, projectInitState);
+
+    const value = useMemo(() => {
+        return { projectState, projectDispatch };
+    }, [projectState, projectDispatch]);
+
+    console.log('render');
 
     return (
         <StoreContext.Provider value={value}>

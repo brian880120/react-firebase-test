@@ -37,22 +37,13 @@ export const createProject = async (project, dispatch) => {
     const db = AppFirebase.getFirebase().firestore();
 
     try {
-        const result = await db.collection('projects').add({
+        await db.collection('projects').add({
             ...project,
             authorFirstName: 'Net',
             authorLastName: 'Ninja',
             authorId: 12345,
             createdAt: new Date(),
         });
-
-        dispatch({
-            type: PROJECT_ACTION.CREATE_PROJECT_SUCCESS,
-            project: {
-                ...project,
-                id: result.id,
-            },
-        });
-
     } catch (err) {
         dispatch({
             type: PROJECT_ACTION.CREATE_PROJECT_FAILED,
