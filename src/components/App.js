@@ -17,8 +17,6 @@ function App() {
         return { projectState, projectDispatch };
     }, [projectState, projectDispatch]);
 
-    console.log('render');
-
     return (
         <StoreContext.Provider value={value}>
             <Navbar />
