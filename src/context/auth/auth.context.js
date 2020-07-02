@@ -1,11 +1,5 @@
-import React, { useReducer } from 'react';
-import AuthReducer, { initState } from './auth.reducer';
+import React from 'react';
 
-const [authState, dispatchAuthAction] = useReducer(AuthReducer, initState);
-
-const AuthContext = React.createContext({
-    authState,
-    dispatchAuthAction,
-});
+const AuthContext = React.createContext();
 
 export default AuthContext;

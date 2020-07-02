@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
+import ProjectContext from '../../../context/project/project.context';
 import useForm from '../../../common/hooks/useForm';
 import { createProject } from '../../../context/project/project.service';
-import StoreContext from '../../../context/store.context';
 
 function CreateProject() {
     const [values, handleChange] = useForm({
@@ -9,7 +9,7 @@ function CreateProject() {
         content: '',
     });
 
-    const { projectDispatch } = useContext(StoreContext);
+    const { projectDispatch } = useContext(ProjectContext);
 
     const onSubmit = (e) => {
         e.preventDefault();

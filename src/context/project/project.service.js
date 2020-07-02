@@ -33,6 +33,17 @@ export const getProjects = (dispatch) => {
     }
 };
 
+export const getProjectByID = async (id) => {
+    const db = AppFirebase.getFirebase().firestore();
+
+    try {
+        const doc = await db.collection('projects').doc(id).get();
+        return doc.data();
+    } catch (err) {
+        console.error(err);
+    }
+};
+
 export const createProject = async (project, dispatch) => {
     const db = AppFirebase.getFirebase().firestore();
 

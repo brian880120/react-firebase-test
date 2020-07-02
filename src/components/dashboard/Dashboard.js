@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import StoreContext from '../../context/store.context';
+import ProjectContext from '../../context/project/project.context';
 import { getProjects } from '../../context/project/project.service';
 import Notifications from './notifications/Notifications';
 import ProjectList from '../projects/project-list/ProjectList';
 
 function Dashboard() {
-    const { projectState, projectDispatch } = useContext(StoreContext);
+    const { projectState, projectDispatch } = useContext(ProjectContext);
     const { projects } = projectState;
 
     useEffect(() => {

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useForm from '../../../common/hooks/useForm';
+import AuthContext from '../../../context/auth/auth.context';
+import { signIn } from '../../../context/auth/auth.service';
 
 function SignIn() {
     const [values, handleChange] = useForm({
@@ -7,7 +9,12 @@ function SignIn() {
         password: '',
     });
 
-    const onSubmit = () => {};
+    const { authState, authDispatch } = useContext(AuthContext);
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        signIn(values, authDispatch);
+    };
 
     return (
         <div className="container">
