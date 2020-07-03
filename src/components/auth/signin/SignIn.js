@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import useForm from '../../../common/hooks/useForm';
 import AuthContext from '../../../context/auth/auth.context';
 import { signIn } from '../../../context/auth/auth.service';
+import { Redirect } from 'react-router-dom';
 
 function SignIn() {
     const [values, handleChange] = useForm({
@@ -9,44 +10,52 @@ function SignIn() {
         password: '',
     });
 
-    const { authDispatch } = useContext(AuthContext);
+    const { authState, authDispatch } = useContext(AuthContext);
 
     const onSubmit = (e) => {
         e.preventDefault();
         signIn(values, authDispatch);
     };
 
-    return (
-        <div className="container">
-            <form className="white" onSubmit={onSubmit}>
-                <h5 className="grey-text text-darken-3">Sign In</h5>
-                <div className="input-field">
-                    <label htmlFor="email">Email</label>
-                    <input type="email"
-                        id="email"
-                        name="email"
-                        value={values.email}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="input-field">
-                    <label htmlFor="password">Email</label>
-                    <input type="password"
-                        id="password"
-                        name="password"
-                        value={values.password}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="input-field">
-                    <button type="submit"
-                        className="btn pink lighten-1 z-depth-0">
-                        Login
-                    </button>
-                </div>
-            </form>
-        </div>
-    );
+    const renderContent = () => {
+        if (authState.isAuthenticated) {
+            return <Redirect to='/' />
+        }
+
+        return (
+            <div className="container">
+                <form className="white" onSubmit={onSubmit}>
+                    <h5 className="grey-text text-darken-3">Sign In</h5>
+                    <div className="input-field">
+                        <label htmlFor="email">Email</label>
+                        <input type="email"
+                            id="email"
+                            name="email"
+                            value={values.email}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="password">Email</label>
+                        <input type="password"
+                            id="password"
+                            name="password"
+                            value={values.password}
+                            onChange={handleChange}
+                        />
+                    </div>
+                    <div className="input-field">
+                        <button type="submit"
+                            className="btn pink lighten-1 z-depth-0">
+                            Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        );
+    };
+
+    return renderContent();
 }
 
 export default SignIn;
