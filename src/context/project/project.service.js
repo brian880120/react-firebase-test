@@ -11,14 +11,13 @@ export const getProjects = (dispatch) => {
     const db = AppFirebase.getFirebase().firestore();
 
     try {
-        db.collection('projects').onSnapshot(snapshot => {
+        return db.collection('projects').onSnapshot(snapshot => {
             const projects = snapshot.docs.map(doc => {
                 return {
                     id: doc.id,
                     ...doc.data(),
                 };
             });
-
             dispatch({
                 type: PROJECT_ACTION.GET_PROJECTS_SUCCESS,
                 projects,

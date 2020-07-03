@@ -15,7 +15,7 @@ export const signIn = async (credentials, dispatch) => {
 
         dispatch({
             type: AUTH_ACTION.LOGIN_SUCCESS,
-            refreshToken: result.user.refreshToken,
+            user: result.user,
         });
     } catch (err) {
         console.error(err);

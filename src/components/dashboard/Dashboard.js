@@ -9,7 +9,11 @@ function Dashboard() {
     const { projects } = projectState;
 
     useEffect(() => {
-        getProjects(projectDispatch);
+        const unsubscribe = getProjects(projectDispatch);
+
+        return () => {
+            unsubscribe();
+        };
     }, [projectDispatch]);
 
     return (
