@@ -7,18 +7,14 @@ export const AUTH_ACTION = {
     LOGOUT_FAILED: 'LOGOUT_FAILED',
 };
 
-export const initAuth = (dispatch) => {
-    const uid = localStorage.getItem('uid');
-    const refreshToken = localStorage.getItem('refresh_token');
-    if (uid || refreshToken) {
-        dispatch({
-            type: AUTH_ACTION.LOGIN_SUCCESS,
-            user: {
-                refreshToken,
-                uid,
-            },
-        });
-    }
+export const initAuth = (user, dispatch) => {
+    dispatch({
+        type: AUTH_ACTION.LOGIN_SUCCESS,
+        user: {
+            refreshToken: user.refreshToken,
+            uid: user.uid,
+        },
+    });
 };
 
 export const signIn = async (credentials, dispatch) => {

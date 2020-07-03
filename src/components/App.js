@@ -12,6 +12,7 @@ import SignIn from './auth/signin/SignIn';
 import SignUp from './auth/signup/SignUp';
 import CreateProject from './projects/create-project/CreateProject';
 import './App.css';
+import AppFirebase from '../config/firebase-config';
 
 function App() {
     const [projectState, projectDispatch] = useReducer(ProjectReducer, projectInitState);
@@ -26,7 +27,16 @@ function App() {
     }, [authState, authDispatch]);
 
     useEffect(() => {
-        initAuth(authDispatch);
+        const auth = AppFirebase.getFirebase().auth();
+        const unsubscribe = auth.onAuthStateChanged(user => {
+            if (user) {
+                initAuth(user, authDispatch);
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
     }, []);
 
     return (
