@@ -2,6 +2,7 @@ import React, { useMemo, useReducer, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import AuthReducer, { authInitState } from '../context/auth/auth.reducer';
 import ProjectReducer, { projectInitState } from '../context/project/project.reducer';
+import AppFirebase from '../config/firebase-config';
 import AuthContext from '../context/auth/auth.context';
 import ProjectContext from '../context/project/project.context';
 import { initAuth } from '../context/auth/auth.service';
@@ -12,7 +13,6 @@ import SignIn from './auth/signin/SignIn';
 import SignUp from './auth/signup/SignUp';
 import CreateProject from './projects/create-project/CreateProject';
 import './App.css';
-import AppFirebase from '../config/firebase-config';
 
 function App() {
     const [projectState, projectDispatch] = useReducer(ProjectReducer, projectInitState);
