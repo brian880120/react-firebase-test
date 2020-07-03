@@ -7,6 +7,20 @@ export const AUTH_ACTION = {
     LOGOUT_FAILED: 'LOGOUT_FAILED',
 };
 
+export const initAuth = (dispatch) => {
+    const uid = localStorage.getItem('uid');
+    const refreshToken = localStorage.getItem('refresh_token');
+    if (uid || refreshToken) {
+        dispatch({
+            type: AUTH_ACTION.LOGIN_SUCCESS,
+            user: {
+                refreshToken,
+                uid,
+            },
+        });
+    }
+};
+
 export const signIn = async (credentials, dispatch) => {
     const auth = AppFirebase.getFirebase().auth();
 
@@ -17,6 +31,9 @@ export const signIn = async (credentials, dispatch) => {
             type: AUTH_ACTION.LOGIN_SUCCESS,
             user: result.user,
         });
+
+        localStorage.setItem('uid', result.user.uid);
+        localStorage.setItem('refresh_token', result.user.refreshToken);
     } catch (err) {
         console.error(err);
         dispatch({
@@ -34,6 +51,9 @@ export const signOut = async (dispatch) => {
         dispatch({
             type: AUTH_ACTION.LOGOUT_SUCCESS,
         });
+
+        localStorage.removeItem('uid');
+        localStorage.removeItem('refresh_token');
     } catch (err) {
         console.error(err);
         dispatch({

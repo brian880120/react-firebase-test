@@ -1,9 +1,10 @@
-import React, { useMemo, useReducer } from 'react';
+import React, { useMemo, useReducer, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import AuthReducer, { authInitState } from '../context/auth/auth.reducer';
 import ProjectReducer, { projectInitState } from '../context/project/project.reducer';
 import AuthContext from '../context/auth/auth.context';
 import ProjectContext from '../context/project/project.context';
+import { initAuth } from '../context/auth/auth.service';
 import Navbar from './layout/navbar/Navbar';
 import Dashboard from './dashboard/Dashboard';
 import ProjectDetails from './projects/project-details/ProjectDetails';
@@ -23,6 +24,10 @@ function App() {
     const authContextValue = useMemo(() => {
         return { authState, authDispatch };
     }, [authState, authDispatch]);
+
+    useEffect(() => {
+        initAuth(authDispatch);
+    }, []);
 
     return (
         <AuthContext.Provider value={authContextValue}>
