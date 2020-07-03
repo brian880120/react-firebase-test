@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getProjectByID } from '../../../context/project/project.service';
+import withAuth from '../../../common/hoc/withAuth';
 
 function ProjectDetails(props) {
     const id = props.match.params.id;
@@ -32,4 +33,4 @@ function ProjectDetails(props) {
     );
 }
 
-export default ProjectDetails;
+export default withAuth(ProjectDetails);

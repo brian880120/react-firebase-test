@@ -9,7 +9,7 @@ function SignIn() {
         password: '',
     });
 
-    const { authState, authDispatch } = useContext(AuthContext);
+    const { authDispatch } = useContext(AuthContext);
 
     const onSubmit = (e) => {
         e.preventDefault();

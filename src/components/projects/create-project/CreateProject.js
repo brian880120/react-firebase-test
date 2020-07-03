@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import ProjectContext from '../../../context/project/project.context';
 import useForm from '../../../common/hooks/useForm';
 import { createProject } from '../../../context/project/project.service';
+import withAuth from '../../../common/hoc/withAuth';
 
 function CreateProject() {
     const [values, handleChange] = useForm({
@@ -49,4 +50,4 @@ function CreateProject() {
     );
 }
 
-export default CreateProject;
+export default withAuth(CreateProject);

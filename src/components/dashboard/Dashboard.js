@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import ProjectContext from '../../context/project/project.context';
 import { getProjects } from '../../context/project/project.service';
+import withAuth from '../../common/hoc/withAuth';
 import Notifications from './notifications/Notifications';
 import ProjectList from '../projects/project-list/ProjectList';
 
@@ -30,4 +31,5 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;
+export default withAuth(Dashboard);
+
