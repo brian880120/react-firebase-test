@@ -27,7 +27,7 @@ function App() {
     }, [authState, authDispatch]);
 
     useEffect(() => {
-        const auth = AppFirebase.getFirebase().auth();
+        const auth = AppFirebase.getAuth();
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
                 initAuth(user, authDispatch);

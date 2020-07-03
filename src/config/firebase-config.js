@@ -23,6 +23,14 @@ class AppFirebase {
     static getFirebase() {
         return this.firebase;
     }
+
+    static getFirestore() {
+        return this.firebase.firestore();
+    }
+
+    static getAuth() {
+        return this.firebase.auth();
+    }
 }
 
 export default AppFirebase;

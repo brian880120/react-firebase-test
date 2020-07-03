@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useForm from '../../../common/hooks/useForm';
+import { useHistory } from 'react-router-dom';
+import AuthContext from '../../../context/auth/auth.context';
+import { signup } from '../../../context/auth/auth.service';
 
 function SignUp() {
+    const history = useHistory();
+
     const [values, handleChange] = useForm({
         email: '',
         password: '',
@@ -9,7 +14,13 @@ function SignUp() {
         firstName: '',
     });
 
-    const onSubmit = () => {};
+    const { authDispatch } = useContext(AuthContext);
+
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        await signup(values, authDispatch);
+        history.push('/');
+    };
 
     return (
         <div className="container">
@@ -25,7 +36,7 @@ function SignUp() {
                     />
                 </div>
                 <div className="input-field">
-                    <label htmlFor="password">Email</label>
+                    <label htmlFor="password">Password</label>
                     <input type="password"
                         id="password"
                         name="password"
@@ -36,8 +47,8 @@ function SignUp() {
                 <div className="input-field">
                     <label htmlFor="lastname">Last Name</label>
                     <input type="text"
-                        id="lastname"
-                        name="lastname"
+                        id="lastName"
+                        name="lastName"
                         value={values.lastName}
                         onChange={handleChange}
                     />
@@ -45,8 +56,8 @@ function SignUp() {
                 <div className="input-field">
                     <label htmlFor="firstname">First Name</label>
                     <input type="text"
-                        id="firstname"
-                        name="firstname"
+                        id="firstName"
+                        name="firstName"
                         value={values.firstName}
                         onChange={handleChange}
                     />

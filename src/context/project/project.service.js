@@ -8,7 +8,7 @@ export const PROJECT_ACTION = {
 }
 
 export const getProjects = (dispatch) => {
-    const db = AppFirebase.getFirebase().firestore();
+    const db = AppFirebase.getFirestore();
 
     try {
         return db.collection('projects').onSnapshot(snapshot => {
@@ -33,7 +33,7 @@ export const getProjects = (dispatch) => {
 };
 
 export const getProjectByID = async (id) => {
-    const db = AppFirebase.getFirebase().firestore();
+    const db = AppFirebase.getFirestore();
 
     try {
         const doc = await db.collection('projects').doc(id).get();
@@ -44,7 +44,7 @@ export const getProjectByID = async (id) => {
 };
 
 export const createProject = async (project, dispatch) => {
-    const db = AppFirebase.getFirebase().firestore();
+    const db = AppFirebase.getFirestore();
 
     try {
         await db.collection('projects').add({

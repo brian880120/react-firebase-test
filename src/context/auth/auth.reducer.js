@@ -26,7 +26,14 @@ const AuthReducer = produce((draft, action) => {
             draft.uid = null;
             return;
         case AUTH_ACTION.LOGOUT_FAILED:
-            draft.authError = 'logout failed';
+            draft.authError = action.err.message;
+            return;
+        case AUTH_ACTION.SIGNUP_SUCCESS:
+            draft.isAuthenticated = true;
+            draft.authError = null;
+            return;
+        case AUTH_ACTION.SIGNUP_FAILED:
+            draft.authError = action.err.message;
             return;
         default:
             return draft;
