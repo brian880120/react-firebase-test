@@ -84,6 +84,7 @@ export const signup = async (newUser, dispatch) => {
         localStorage.setItem('uid', result.user.uid);
         localStorage.setItem('refresh_token', result.user.refreshToken);
     } catch (err) {
+        console.error(err.message);
         dispatch({
             type: AUTH_ACTION.SIGNUP_FAILED,
             err,
