@@ -32,26 +32,12 @@ export const getProjects = (dispatch) => {
     }
 };
 
-export const getProjectByID = async (id) => {
-    const db = AppFirebase.getFirestore();
-
-    try {
-        const doc = await db.collection('projects').doc(id).get();
-        return doc.data();
-    } catch (err) {
-        console.error(err);
-    }
-};
-
 export const createProject = async (project, dispatch) => {
     const db = AppFirebase.getFirestore();
 
     try {
         await db.collection('projects').add({
             ...project,
-            authorFirstName: 'Net',
-            authorLastName: 'Ninja',
-            authorId: 12345,
             createdAt: new Date(),
         });
     } catch (err) {

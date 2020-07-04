@@ -22,7 +22,10 @@ export const initAuth = async (user, dispatch) => {
     });
 
     const doc = await db.collection('users').doc(user.uid).get();
-    const profile = doc.data();
+    const profile = {
+        ...doc.data(),
+        id: user.uid,
+    };
 
     dispatch.profile({
         type: USERPROFILE_ACTION.INIT_USERPROFILE,
@@ -43,7 +46,10 @@ export const signIn = async (credentials, dispatch) => {
         });
 
         const doc = await db.collection('users').doc(result.user.uid).get();
-        const profile = doc.data();
+        const profile = {
+            ...doc.data(),
+            id: result.user.uid,
+        };
 
         dispatch.profile({
             type: USERPROFILE_ACTION.INIT_USERPROFILE,

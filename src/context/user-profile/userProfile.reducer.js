@@ -2,6 +2,7 @@ import produce from 'immer';
 import { USERPROFILE_ACTION } from './userProfile.service';
 
 export const userProfileInitState = {
+    id: '',
     firstName: '',
     lastName: '',
     initials: '',
@@ -10,9 +11,11 @@ export const userProfileInitState = {
 const UserProfileReducer = produce((draft, action) => {
     switch (action.type) {
         case USERPROFILE_ACTION.INIT_USERPROFILE:
-            draft.firstName = action.profile.firstName;
-            draft.lastName = action.profile.lastName;
-            draft.initials = action.profile.initials;
+            const { id, firstName, lastName, initials } = action.profile;
+            draft.id = id;
+            draft.firstName = firstName;
+            draft.lastName = lastName;
+            draft.initials = initials;
             return;
         default:
             return;

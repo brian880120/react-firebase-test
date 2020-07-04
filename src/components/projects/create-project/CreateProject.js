@@ -13,11 +13,21 @@ function CreateProject() {
         content: '',
     });
 
-    const { dispatch } = useContext(RootContext);
+    const {
+        state: {
+            profile,
+        },
+        dispatch
+    } = useContext(RootContext);
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await createProject(values, dispatch.project);
+        await createProject({
+            ...values,
+            authorId: profile.id,
+            authorFirstName: profile.firstName,
+            authorLastName: profile.lastName,
+        }, dispatch.project);
         history.push('/');
     };
 

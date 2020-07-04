@@ -1,19 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { getProjectByID } from '../../../context/project/project.service';
+import React, { useMemo, useContext } from 'react';
+import moment from 'moment';
 import withAuth from '../../../common/hoc/withAuth';
+import RootContext from '../../../context/root/root.context';
 
 function ProjectDetails(props) {
     const id = props.match.params.id;
 
-    const [project, setProject] = useState({});
+    const {
+        state: {
+            project: { projects }
+        }
+    } = useContext(RootContext);
 
-    useEffect(() => {
-        getProjectByID(id).then(project => {
-            setProject({
-                ...project,
-            });
-        });
-    }, [id]);
+    const project = useMemo(() => {
+        return projects.filter((item) => {
+            return item.id === id;
+        })[0];
+    }, [projects, id]);
+
+    const date = useMemo(() => {
+        return moment(project.createdAt.toDate()).calendar();
+    }, [project]);
 
     return (
         <div className="container section project-details">
@@ -26,7 +33,7 @@ function ProjectDetails(props) {
                 </div>
                 <div className="card-action grey lighten-4 grey-text">
                     <div>Posted by {project.authorFirstName} {project.authorLastName}</div>
-                    <div>3rd September, 2am</div>
+                    <div>{date}</div>
                 </div>
             </div>
         </div>

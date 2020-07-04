@@ -3,7 +3,7 @@ import RootContext from '../../../context/root/root.context';
 import { NavLink } from 'react-router-dom';
 import { signOut } from '../../../context/auth/auth.service';
 
-function SignedInLinks() {
+function SignedInLinks({ profile }) {
     const { dispatch } = useContext(RootContext);
 
     const onSignOut = (e) => {
@@ -20,7 +20,11 @@ function SignedInLinks() {
                 <a href="/" onClick={onSignOut}>Log Out</a>
             </li>
             <li>
-                <NavLink to="/" className="btn btn-floating pink lighten-1">NN</NavLink>
+                <NavLink
+                    to="/"
+                    className="btn btn-floating pink lighten-1">
+                    {profile.initials}
+                </NavLink>
             </li>
         </ul>
     );

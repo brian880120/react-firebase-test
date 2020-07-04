@@ -6,7 +6,10 @@ import SignedOutLinks from '../signedout-link/SignedOutLinks';
 
 function Navbar() {
     const {
-        state: { auth }
+        state: {
+            auth,
+            profile,
+        },
     } = useContext(RootContext);
 
     return (
@@ -17,7 +20,7 @@ function Navbar() {
                 </Link>
                 {
                     auth.isAuthenticated ?
-                        <SignedInLinks /> :
+                        <SignedInLinks profile={profile} /> :
                         <SignedOutLinks />
                 }
             </div>
