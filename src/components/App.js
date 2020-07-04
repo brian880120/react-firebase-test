@@ -1,10 +1,8 @@
-import React, { useMemo, useReducer, useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import AuthReducer, { authInitState } from '../context/auth/auth.reducer';
-import ProjectReducer, { projectInitState } from '../context/project/project.reducer';
 import AppFirebase from '../config/firebase-config';
-import AuthContext from '../context/auth/auth.context';
-import ProjectContext from '../context/project/project.context';
+import RootReducer from '../context/root/root.reducer';
+import RootContext from '../context/root/root.context';
 import { initAuth } from '../context/auth/auth.service';
 import Navbar from './layout/navbar/Navbar';
 import Dashboard from './dashboard/Dashboard';
@@ -15,43 +13,36 @@ import CreateProject from './projects/create-project/CreateProject';
 import './App.css';
 
 function App() {
-    const [projectState, projectDispatch] = useReducer(ProjectReducer, projectInitState);
-    const [authState, authDispatch] = useReducer(AuthReducer, authInitState);
+    const { state, dispatch } = RootReducer();
 
-    const projectContextValue = useMemo(() => {
-        return { projectState, projectDispatch };
-    }, [projectState, projectDispatch]);
-
-    const authContextValue = useMemo(() => {
-        return { authState, authDispatch };
-    }, [authState, authDispatch]);
+    const contextValue = useMemo(() => {
+        return { state, dispatch };
+    }, [state, dispatch]);
 
     useEffect(() => {
         const auth = AppFirebase.getAuth();
         const unsubscribe = auth.onAuthStateChanged(user => {
             if (user) {
-                initAuth(user, authDispatch);
+                initAuth(user, dispatch);
             }
         });
 
         return () => {
             unsubscribe();
         };
-    }, []);
+    }, [dispatch]);
 
     return (
-        <AuthContext.Provider value={authContextValue}>
-            <ProjectContext.Provider value={projectContextValue}>
-                <Navbar />
-                <Switch>
-                    <Route exact path="/" component={Dashboard} />
-                    <Route path="/project/:id" component={ProjectDetails} />
-                    <Route path="/signin" component={SignIn} />
-                    <Route path="/signup" component={SignUp} />
-                    <Route path="/create" component={CreateProject} />
-                </Switch>
-            </ProjectContext.Provider>
-        </AuthContext.Provider>
+        <RootContext.Provider value={contextValue}>
+            <Navbar />
+            <Switch>
+                <Route exact path="/" component={Dashboard} />
+                <Route path="/project/:id" component={ProjectDetails} />
+                <Route path="/signin" component={SignIn} />
+                <Route path="/signup" component={SignUp} />
+                <Route path="/create" component={CreateProject} />
+            </Switch>
+        </RootContext.Provider>
     );
 }
 

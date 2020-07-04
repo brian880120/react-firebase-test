@@ -1,21 +1,25 @@
 import React, { useContext, useEffect } from 'react';
-import ProjectContext from '../../context/project/project.context';
 import { getProjects } from '../../context/project/project.service';
 import withAuth from '../../common/hoc/withAuth';
 import Notifications from './notifications/Notifications';
 import ProjectList from '../projects/project-list/ProjectList';
+import RootContext from '../../context/root/root.context';
 
 function Dashboard() {
-    const { projectState, projectDispatch } = useContext(ProjectContext);
-    const { projects } = projectState;
+    const {
+        state: {
+            project: { projects },
+        },
+        dispatch,
+    } = useContext(RootContext);
 
     useEffect(() => {
-        const unsubscribe = getProjects(projectDispatch);
+        const unsubscribe = getProjects(dispatch.project);
 
         return () => {
             unsubscribe();
         };
-    }, [projectDispatch]);
+    }, [dispatch.project]);
 
     return (
         <div className="dashboard container">

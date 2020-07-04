@@ -1,4 +1,5 @@
 import AppFirebase from "../../config/firebase-config";
+import { USERPROFILE_ACTION } from "../user-profile/userProfile.service";
 
 export const AUTH_ACTION = {
     LOGIN_SUCCESS: 'LOGIN_SUCCESS',
@@ -9,32 +10,51 @@ export const AUTH_ACTION = {
     SIGNUP_FAILED: 'SIGNUP_FAILED',
 };
 
-export const initAuth = (user, dispatch) => {
-    dispatch({
+export const initAuth = async (user, dispatch) => {
+    const db = AppFirebase.getFirestore();
+
+    dispatch.auth({
         type: AUTH_ACTION.LOGIN_SUCCESS,
         user: {
             refreshToken: user.refreshToken,
             uid: user.uid,
         },
     });
+
+    const doc = await db.collection('users').doc(user.uid).get();
+    const profile = doc.data();
+
+    dispatch.profile({
+        type: USERPROFILE_ACTION.INIT_USERPROFILE,
+        profile,
+    });
 };
 
 export const signIn = async (credentials, dispatch) => {
     const auth = AppFirebase.getAuth();
+    const db = AppFirebase.getFirestore();
 
     try {
         const result = await auth.signInWithEmailAndPassword(credentials.email, credentials.password);
 
-        dispatch({
+        dispatch.auth({
             type: AUTH_ACTION.LOGIN_SUCCESS,
             user: result.user,
+        });
+
+        const doc = await db.collection('users').doc(result.user.uid).get();
+        const profile = doc.data();
+
+        dispatch.profile({
+            type: USERPROFILE_ACTION.INIT_USERPROFILE,
+            profile,
         });
 
         localStorage.setItem('uid', result.user.uid);
         localStorage.setItem('refresh_token', result.user.refreshToken);
     } catch (err) {
         console.error(err);
-        dispatch({
+        dispatch.auth({
             type: AUTH_ACTION.LOGIN_FAILED,
         });
     }
@@ -46,14 +66,14 @@ export const signOut = async (dispatch) => {
     try {
         await auth.signOut();
 
-        dispatch({
+        dispatch.auth({
             type: AUTH_ACTION.LOGOUT_SUCCESS,
         });
 
         localStorage.removeItem('uid');
         localStorage.removeItem('refresh_token');
     } catch (err) {
-        dispatch({
+        dispatch.auth({
             type: AUTH_ACTION.LOGOUT_FAILED,
             err,
         });

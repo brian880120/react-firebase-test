@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import useForm from '../../../common/hooks/useForm';
-import { useHistory } from 'react-router-dom';
-import AuthContext from '../../../context/auth/auth.context';
+import { useHistory, Redirect } from 'react-router-dom';
+import RootContext from '../../../context/root/root.context';
 import { signIn } from '../../../context/auth/auth.service';
 
 function SignIn() {
@@ -12,13 +12,20 @@ function SignIn() {
         password: '',
     });
 
-    const { authDispatch } = useContext(AuthContext);
+    const {
+        state: { auth },
+        dispatch,
+    } = useContext(RootContext);
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await signIn(values, authDispatch);
+        await signIn(values, dispatch);
         history.push('/');
     };
+
+    if (auth.isAuthenticated) {
+        return <Redirect to='/' />
+    }
 
     return (
         <div className="container">

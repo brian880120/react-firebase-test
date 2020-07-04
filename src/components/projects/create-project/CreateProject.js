@@ -1,20 +1,24 @@
 import React, { useContext } from 'react';
-import ProjectContext from '../../../context/project/project.context';
+import RootContext from '../../../context/root/root.context';
 import useForm from '../../../common/hooks/useForm';
+import { useHistory } from 'react-router-dom';
 import { createProject } from '../../../context/project/project.service';
 import withAuth from '../../../common/hoc/withAuth';
 
 function CreateProject() {
+    const history = useHistory();
+
     const [values, handleChange] = useForm({
         title: '',
         content: '',
     });
 
-    const { projectDispatch } = useContext(ProjectContext);
+    const { dispatch } = useContext(RootContext);
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        createProject(values, projectDispatch);
+        await createProject(values, dispatch.project);
+        history.push('/');
     };
 
     return (

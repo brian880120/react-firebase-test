@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import useForm from '../../../common/hooks/useForm';
 import { useHistory } from 'react-router-dom';
-import AuthContext from '../../../context/auth/auth.context';
+import RootContext from '../../../context/root/root.context';
 import { signup } from '../../../context/auth/auth.service';
 
 function SignUp() {
@@ -14,11 +14,11 @@ function SignUp() {
         firstName: '',
     });
 
-    const { authDispatch } = useContext(AuthContext);
+    const { dispatch } = useContext(RootContext);
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await signup(values, authDispatch);
+        await signup(values, dispatch.auth);
         history.push('/');
     };
 

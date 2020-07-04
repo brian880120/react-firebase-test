@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
-import AuthContext from '../../context/auth/auth.context';
+import RootContext from '../../context/root/root.context';
 import { Redirect } from 'react-router-dom';
 
 function withAuth(Component) {
     return (props) => {
-        const { authState } = useContext(AuthContext);
+        const {
+            state: { auth },
+        } = useContext(RootContext);
 
-        if (!authState.isAuthenticated) {
+        if (!auth.isAuthenticated) {
             return <Redirect to='/signin' />
         }
 

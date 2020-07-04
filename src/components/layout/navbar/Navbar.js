@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import AuthContext from '../../../context/auth/auth.context';
+import RootContext from '../../../context/root/root.context';
 import SignedInLinks from '../signedin-link/SignedInLinks';
 import SignedOutLinks from '../signedout-link/SignedOutLinks';
 
 function Navbar() {
-    const { authState } = useContext(AuthContext);
+    const {
+        state: { auth }
+    } = useContext(RootContext);
 
     return (
         <nav className="nav-wrapper grey darken-3">
@@ -14,7 +16,7 @@ function Navbar() {
                     MarioPlan
                 </Link>
                 {
-                    authState.isAuthenticated ?
+                    auth.isAuthenticated ?
                         <SignedInLinks /> :
                         <SignedOutLinks />
                 }

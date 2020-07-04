@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
-import AuthContext from '../../../context/auth/auth.context';
+import RootContext from '../../../context/root/root.context';
 import { NavLink } from 'react-router-dom';
 import { signOut } from '../../../context/auth/auth.service';
 
 function SignedInLinks() {
-    const { authDispatch } = useContext(AuthContext);
+    const { dispatch } = useContext(RootContext);
 
     const onSignOut = (e) => {
         e.preventDefault();
-        signOut(authDispatch);
+        signOut(dispatch);
     };
 
     return (
