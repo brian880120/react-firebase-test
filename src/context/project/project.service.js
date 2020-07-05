@@ -11,7 +11,7 @@ export const getProjects = (dispatch) => {
     const db = AppFirebase.getFirestore();
 
     try {
-        return db.collection('projects').onSnapshot(snapshot => {
+        return db.collection('projects').orderBy('createdAt', 'desc').onSnapshot(snapshot => {
             const projects = snapshot.docs.map(doc => {
                 return {
                     id: doc.id,

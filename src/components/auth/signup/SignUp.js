@@ -18,7 +18,7 @@ function SignUp() {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await signup(values, dispatch.auth);
+        await signup(values, dispatch);
         history.push('/');
     };
 

@@ -96,22 +96,31 @@ export const signup = async (newUser, dispatch) => {
     try {
         const result = await auth.createUserWithEmailAndPassword(newUser.email, newUser.password);
 
-        await db.collection('users').doc(result.user.uid).set({
-            firstName,
-            lastName,
+        const profile = {
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
             initials: firstName[0] + lastName[0],
-        });
+        };
 
-        dispatch({
+        await db.collection('users').doc(result.user.uid).set(profile);
+
+        profile.id = result.user.uid;
+
+        dispatch.auth({
             type: AUTH_ACTION.SIGNUP_SUCCESS,
             user: result.user,
+        });
+
+        dispatch.profile({
+            type: USERPROFILE_ACTION.INIT_USERPROFILE,
+            profile,
         });
 
         localStorage.setItem('uid', result.user.uid);
         localStorage.setItem('refresh_token', result.user.refreshToken);
     } catch (err) {
         console.error(err.message);
-        dispatch({
+        dispatch.auth({
             type: AUTH_ACTION.SIGNUP_FAILED,
             err,
         });
